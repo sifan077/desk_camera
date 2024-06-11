@@ -1,34 +1,34 @@
 <!doctype html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Electron</title>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+    />
+    <style>
+      /* Make the entire body draggable */
+      body {
+        -webkit-app-region: drag;
+        background: rgba(0, 0, 0, 0); /* 确保背景是透明的 */
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Electron</title>
-  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:" />
-  <style>
-    /* Make the entire body draggable */
-    body {
-      -webkit-app-region: drag;
-      background: rgba(0, 0, 0, 0); /* 确保背景是透明的 */
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
+      /* Example for non-draggable areas */
+      .no-drag {
+        -webkit-app-region: no-drag;
+      }
+    </style>
+  </head>
 
-    /* Example for non-draggable areas */
-    .no-drag {
-      -webkit-app-region: no-drag;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.js"></script>
-</body>
-
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>

@@ -1,10 +1,9 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, Menu, Tray } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
-app.commandLine.appendSwitch('enable-transparent-visuals');
-app.commandLine.appendSwitch('disable-gpu'); // 添加这一行来启用透明背景
-
+app.commandLine.appendSwitch('enable-transparent-visuals')
+app.commandLine.appendSwitch('disable-gpu') // 添加这一行来启用透明背景
 
 function createWindow() {
   // Create the browser window.
@@ -14,7 +13,7 @@ function createWindow() {
     frame: false,
     transparent: true, // 使窗口背景透明
     backgroundColor: '#00000000', // 窗口背景透明色
-    show: true, 
+    show: true,
     autoHideMenuBar: true, // 隐藏菜单栏
     resizable: false, // 禁止调整窗口大小
     hasShadow: false, // 去掉窗口阴影
@@ -23,20 +22,22 @@ function createWindow() {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
-  });
+  })
 
-  mainWindow.webContents.closeDevTools();
-  mainWindow.setAlwaysOnTop(true);
+  mainWindow.webContents.closeDevTools()
+  mainWindow.setAlwaysOnTop(true)
+
+  mainWindow.setSkipTaskbar(true) // 隐藏任务栏图标
 
   // 圆形化处理
-  mainWindow.setAspectRatio(1);
-  mainWindow.setResizable(false);
+  mainWindow.setAspectRatio(1)
+  mainWindow.setResizable(false)
   mainWindow.on('maximize', () => {
-    mainWindow.setSize(260, 260);
-  });
+    mainWindow.setSize(260, 260)
+  })
   mainWindow.on('minimize', () => {
-    mainWindow.showInactive();
-  });
+    mainWindow.showInactive()
+  })
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
@@ -86,7 +87,32 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-  if (process.platform!== 'darwin') {
+  if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+const increaseWindowSize = () => {
+  console.log('increaseWindowSize')
+}
+
+const decreaseWindowSize = () => {
+  console.log('decreaseWindowSize')
+}
+
+let tray = null
+app.whenReady().then(() => {
+  tray = new Tray('D:/code/projects/vite-electron-vue3-deskComera/resources/icon.png')
+  const contextMenu = Menu.buildFromTemplate([
+    { label: '增大', click: increaseWindowSize },
+    { label: '减小', click: decreaseWindowSize },
+    {
+      label: '退出',
+      click: () => {
+        app.quit()
+      }
+    }
+  ])
+  tray.setToolTip('DeskComera')
+  tray.setContextMenu(contextMenu)
 })

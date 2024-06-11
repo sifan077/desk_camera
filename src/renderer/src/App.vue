@@ -1,28 +1,28 @@
 <template>
   <div>
-      <video ref="video" autoplay></video>
+    <video ref="video" autoplay></video>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue'
 
 onMounted(() => {
-  startCamera();
-});
+  startCamera()
+})
 
-const video = ref(null);
+const video = ref(null)
 
 const startCamera = async () => {
   try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (video.value) {
-          video.value.srcObject = stream;
-      }
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true })
+    if (video.value) {
+      video.value.srcObject = stream
+    }
   } catch (err) {
-      console.error('Error accessing camera: ', err);
+    console.error('Error accessing camera: ', err)
   }
-};
+}
 </script>
 
 <style scoped>
